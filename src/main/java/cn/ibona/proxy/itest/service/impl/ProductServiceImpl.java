@@ -1,6 +1,7 @@
 package cn.ibona.proxy.itest.service.impl;
 
 import cn.ibona.proxy.itest.entity.Product;
+import cn.ibona.proxy.itest.entity.custom.ProductCustom;
 import cn.ibona.proxy.itest.mapper.ProductMapper;
 import cn.ibona.proxy.itest.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,5 +26,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product getProductById(Long id) {
         return productMapper.getProductById(id);
+    }
+
+    @Override
+    public ProductCustom getByProductID(Long id) {
+        return productMapper.getByProductId(id);
     }
 }

@@ -1,6 +1,7 @@
 package cn.ibona.proxy.itest.mapper;
 
 import cn.ibona.proxy.itest.entity.Product;
+import cn.ibona.proxy.itest.entity.custom.ProductCustom;
 
 public interface ProductMapper {
 
@@ -12,5 +13,6 @@ public interface ProductMapper {
      */
     Product getProductById(Long id);
 
+    ProductCustom getByProductId(Long id);
 
 }

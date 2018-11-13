@@ -3,16 +3,14 @@ package cn.ibona.proxy.itest.controller;
 import cn.ibona.proxy.itest.entity.Product;
 import cn.ibona.proxy.itest.entity.ProductTp;
 import cn.ibona.proxy.itest.entity.ProductTpExtend;
+import cn.ibona.proxy.itest.entity.custom.ProductCustom;
 import cn.ibona.proxy.itest.entity.custom.ProductVO;
 import cn.ibona.proxy.itest.service.ProductService;
 import cn.ibona.proxy.itest.service.ProductTpExtendService;
 import cn.ibona.proxy.itest.service.ProductTpService;
 import cn.ibona.proxy.itest.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +31,7 @@ public class ProductController {
 
     /**
      * 商品详情
+     *
      * @param productId 商品id
      * @return 统一格式返回
      */
@@ -80,5 +79,35 @@ public class ProductController {
         productVO.setProductTpExtends(productTpExtends);
         // 返回VO对象
         return Result.success("获取成功").put("productVO", productVO);
+    }
+
+    @GetMapping("/productDetails")
+    public Result getProduct(@RequestParam("id") Long id) {
+        ProductCustom productCustom = productService.getByProductID(id);
+
+        List<ProductTp> productTpList = productTpService.listProductTp(productCustom.getProductId());
+
+        List<List<ProductTp>> bigList = new ArrayList<>();
+
+        List<ProductTp> productTpList1 = new ArrayList<>();
+        List<ProductTp> productTpList2 = new ArrayList<>();
+        List<ProductTp> productTpList3 = new ArrayList<>();
+        for (ProductTp productTp : productTpList) {
+            if (productTp.getProductTpLevel() == 1) {
+                productTpList1.add(productTp);
+            } else if (productTp.getProductTpLevel() == 2) {
+                productTpList2.add(productTp);
+            } else {
+                productTpList3.add(productTp);
+            }
+        }
+
+        bigList.add(productTpList1);
+        bigList.add(productTpList2);
+        bigList.add(productTpList3);
+
+        productCustom.setProductTpLists(bigList);
+
+        return Result.success("获取成功").put("product", productCustom);
     }
 }

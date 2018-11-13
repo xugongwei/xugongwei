@@ -2,7 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.ibona.proxy.itest.mapper.ProductMapper">
 
+    <resultMap id="get_product" type="cn.ibona.proxy.itest.entity.custom.ProductCustom">
+        <id column="product_id" property="productId"/>
+
+        <collection property="productTpExtends"
+                    select="cn.ibona.proxy.itest.mapper.ProductTpExtendMapper.listProductTpExtend" column="product_id">
+        </collection>
+    </resultMap>
+
     <select id="getProductById" parameterType="long" resultType="cn.ibona.proxy.itest.entity.Product">
+        select * from t_mall_product where product_id=#{id}
+    </select>
+
+    <select id="getByProductId" resultMap="get_product">
         select * from t_mall_product where product_id=#{id}
     </select>
 </mapper>

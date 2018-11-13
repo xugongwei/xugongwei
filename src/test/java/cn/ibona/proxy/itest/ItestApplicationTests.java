@@ -1,5 +1,6 @@
 package cn.ibona.proxy.itest;
 
+import cn.ibona.proxy.itest.entity.custom.ProductCustom;
 import cn.ibona.proxy.itest.mapper.ProductMapper;
 import cn.ibona.proxy.itest.mapper.ProductTpMapper;
 import org.junit.Test;
@@ -20,8 +21,9 @@ public class ItestApplicationTests {
 
     @Test
     public void contextLoads() {
-//        System.out.println(productMapper.getProductById(1L));
-        System.out.println(productTpMapper.listProductTp(1L));
+        ProductCustom custom = productMapper.getByProductId(170L);
+        System.out.println(custom.getProductId());
+        System.out.println(custom);
     }
 
 }
